@@ -1,0 +1,133 @@
+* {
+    box-sizing: border-box;
+}
+
+.signUp {
+    width: 100%;
+    height: 98vh;
+    background-color: #238CFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, Helvetica, sans-serif;
+
+    .container {
+        height: 80%;
+        width: 60%;
+        background-color: white;
+        display: flex;
+        flex-direction: row-reverse;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+
+        .leftContainer {
+            width: 50%;
+            height: 100%;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .formSection {
+                width: 60%;
+                height: 80%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+
+                h1 {
+                    display: block;
+                }
+
+                .authButton {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    height: 30px;
+                    width: 100%;
+
+                    background-color: rgb(254, 251, 251);
+                    border: none;
+
+                    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+                    margin-bottom: 20px;
+
+                    img {
+                        height: 15px;
+                        width: 15px;
+                        margin-right: 10px;
+                    }
+
+                }
+
+                p {
+                    width: 100%;
+                    text-align: center;
+                    font-size: 11px;
+                    color: lightgray;
+                    margin-bottom: 20px;
+                }
+
+                form {
+                    width: 100%;
+
+                    label {
+                        font-size: 15px;
+                        font-weight: 500;
+                    }
+
+                    input {
+                        width: 100%;
+                        height: 40px;
+                        padding: 15px;
+                        color: lightgrey;
+                        border: 1px solid lightgrey;
+                        margin-bottom: 20px;
+                    }
+
+                    p {
+                        width: 100%;
+                        text-align: right;
+                        font-size: 11px;
+                        color: #C17EB3;
+                    }
+
+                    button {
+                        width: 100%;
+                        height: 40px;
+                        padding: 15px;
+                        color: white;
+                        background-color:#238CFF;
+                        border: none;
+                        margin-bottom: 20px;
+                    }
+                }
+
+                .p {
+                    height: 20px;
+                    border-top: 1px solid lightgrey;
+                    padding: 20px;
+                    font-size: 13px;
+                    span {
+                        color: #C17EB3;
+                    }
+                    .Link {
+                        text-decoration: none;
+                    }
+                }
+            }
+        }
+
+        .rightContainer {
+            width: 50%;
+            height: 100%;
+            background-color: #EBEFFB;
+            display: flex;
+            flex-direction: column-reverse;
+
+            img {
+                width: 100%;
+            }
+        }
+    }
+}

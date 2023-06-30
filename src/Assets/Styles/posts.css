@@ -1,0 +1,80 @@
+.posts {
+    width: 60%;
+    border-right: 1px solid lightgrey;
+    padding: 50px;
+    position: relative;
+}
+
+.addPostButton {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 70px;
+    width: 70px;
+    font-size: 60px;
+    color: white;
+    background-color: #238CFF;
+    border: none;
+    border-radius: 50%;
+}
+
+.addPost{
+    height: 300px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+.postForm {
+    height: 100%;
+    width: 100%;
+    display: flex;
+}
+
+.postForm .textBar {
+    width: 50%;
+    border-right: 1px solid lightgrey;
+    padding: 10px;
+    height: 100%;
+}
+
+.textBar button {
+    width: 100%;
+    height: 30px;
+    color: white;
+    background-color:#238CFF;
+    border: none;
+}
+
+.imgSelect {
+   width: 50%;
+   height: 100%;
+   padding: 10px;
+}
+
+.imgSelect #file-input {
+    display: none;
+}
+
+.imgSelect #file-input-label .img {
+    width: 100%;
+    height: 340px;
+    border: 1px solid  grey;
+}
+
+.imgSelect #file-input-label img {
+    width: 100%;
+    height: 100%;
+}
+
