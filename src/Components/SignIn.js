@@ -1,6 +1,6 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { signInWithGoogle, logInWithEmailAndPassword } from "../Firebase/auth";
 import { setUser, setUserData } from "../Features/Social/userSlice"
 
@@ -8,12 +8,16 @@ import "../Assets/Styles/signIn.scss";
 
 const SignIn = () => {
 
-  const input = useRef(null)
-
   const dispatch = useDispatch();
   const Navigate = useNavigate();
+  const userData = useSelector((state)=>state)
+  const input = useRef(null)
 
-  console.log("signIn")
+  useEffect(()=>{
+    // if(userData!=={}) Navigate("/home")
+  },[])
+
+  
 
   const authButton = async () => {
 
