@@ -1,5 +1,5 @@
 .posts {
-    width: 50%;
+    width: 57%;
     border-right: 1px solid lightgrey;
     padding: 10px 50px 0px 50px;
     position: relative;
@@ -20,6 +20,10 @@
     background-color: #238CFF;
     border: none;
     border-radius: 50%;
+}
+
+.addPostButton:hover {
+    font-size:70px;
 }
 
 .addPost{

@@ -8,17 +8,15 @@ p{
 }
 
 .postItems {
-    /* height: 600px; */
     width: 100%;
     border-radius: 30px;
     position: relative;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background-color: #EEEEF4;
+    background-color: #FAFAFB;
     border: 1px solid #EEEEF4;
-    margin-bottom: 35px;
-
+    box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;    margin-bottom: 35px;
 }
 
 .postText{
@@ -73,6 +71,10 @@ p{
     border: none;
     color: grey;
     margin-right: 10px;
+}
+
+.postButtonSectiom button:hover {
+    transform: scale(1.1);
 }
 
 .commentSection{

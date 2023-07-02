@@ -1,8 +1,14 @@
+*{
+  box-sizing: border-box;
+}
+
 .home {
+  box-sizing: border-box;
+
   display: flex;
   width: 100%;
   height: 98vh;
-  background-image: linear-gradient(white, #eeeef4);
+  background-image: linear-gradient(to bottom right,white, #c9c9d2);
 
   .sideBar {
     width: 18%;
@@ -74,7 +80,18 @@
           width: 100%;
           font-size: 15px;
           // padding: 5px;
+          cursor: pointer;
           color: black;
+        }
+
+        .clearNotification{
+          color: red;
+          width: fit-content;
+          padding-right: 5px;
+        }
+
+        .clearNotification:hover {
+          transform: scale(1.2);
         }
       }
 
@@ -83,6 +100,14 @@
         display: flex;
         flex-direction: column;
         overflow-y: scroll;
+
+        .emptyNotification {
+          width: 100%;
+          text-align: center;
+          font-size: 12px;
+          padding: 5px 0px;
+          color: grey;
+        }
       }
 
       .notty {
@@ -114,6 +139,11 @@
 
       
     }
+  }
+
+  .chatSection {
+    width: 25%;
+    padding: 10px;
   }
 }
 

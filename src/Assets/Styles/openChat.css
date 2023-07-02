@@ -1,0 +1,137 @@
+.openChat{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-between; */
+    /* align-items: center; */
+}
+
+.openUserInfo{
+    height: 40px;
+    width:100%;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid lightgray;
+}
+
+.openUserInfo img {
+    width: 30px;
+    height: 30px;
+    margin-right:5px;
+}
+
+.additionalInfo{
+    width: 100%;
+    height: 20px;
+    font-size:10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor:pointer;
+}
+
+.chatMain {
+    width: 100%;
+    height: 70%;
+}
+
+.chatRoom {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+}
+
+.chatRoomDate {
+    width:100%;
+    text-align: center;
+    font-size: 10px;
+    color: grey;
+}
+
+.rightMessage{
+    width: 100%;
+    height: 25px;
+    font-size: 13px;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+   
+}
+
+.rightMessage p {
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #238CFF;
+    color: white;
+    
+}
+
+.rightMessage span, .leftMessage span {
+    font-size:9px;
+}
+
+.leftMessage{
+    width: 100%;
+    height: 25px;
+    font-size: 13px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin-bottom: 3px;
+}
+
+.leftMessage p {
+    padding: 5px;
+    border-radius: 5px;
+    background-color: lightgray;
+    color: white;
+}
+
+.openChatBar {
+    display: flex;
+    flex-direction: row;
+    padding: 5px;
+    border-radius: 10px;
+    background-image: linear-gradient(#F4F4F7,rgb(237, 236, 236))
+}
+
+.openChatBar form  {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.openChat form input {
+    background-color: transparent;
+    border: none;
+    width: 80%;
+}
+
+.openChat form input:focus {
+    outline: none;
+}
+
+.openChat form button {
+    height: 30px;
+    width: 30px;
+    background-color: transparent;
+    border: none;
+    padding: 2px;
+    color: grey;
+}
+
+.online {
+    width: 65%;
+    color: red;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+
+    
+    padding-right: 10;
+    font-size: 10px;
+}

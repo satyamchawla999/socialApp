@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../Assets/Styles/postItem.css";
 import { db } from "../../Firebase";
 import { getDate, isTimeDifferenceFiveMinutes } from "../../Utils/constant";
@@ -11,6 +11,7 @@ import {
   where,
   addDoc,
   updateDoc,
+  deleteDoc,
   getDoc,
   onSnapshot,
 } from "firebase/firestore";
@@ -18,15 +19,37 @@ import { useSelector } from "react-redux";
 
 const PostItems = (props) => {
   const { post } = props;
+
   const userData = useSelector((state) => state.userData);
+
   const [commentContainer, setCommentContainer] = useState(false);
   const [comments, setComments] = useState([]);
+  const [liked, setLiked] = useState(false);
+  const [liked1, setLiked1] = useState(false);
+
+  useEffect(() => {
+    const getLikes = async () => {
+      const q = query(
+        collection(db, "Users"),
+        where("uid", "==", userData.uid)
+      );
+
+      const data = await getDocs(q);
+      let found = false;
+      data.docs.some((doc) => {
+        found = doc.data().liked.some((postUid) => postUid === post.postUid);
+        return found;
+      });
+      setLiked(found);
+    };
+
+    getLikes();
+  }, [post, liked1]);
 
   let Mydate = "T";
   const date = post?.date?.seconds ? new Date(post.date.seconds * 1000) : null;
   const formattedTime = date ? date.toLocaleTimeString() : null;
   const timeDifference = isTimeDifferenceFiveMinutes(post);
-  console.log(timeDifference)
   let d = getDate(post.date.seconds);
   if (d != Mydate) Mydate = d;
 
@@ -39,14 +62,54 @@ const PostItems = (props) => {
     setComments(arr);
   };
 
+  const addNotification = async (uid, type, name) => {
+    const q = query(collection(db, "Users"), where("uid", "==", uid));
+
+    const notificationData = {
+      type,
+      name,
+    };
+
+    const userData = await getDocs(q);
+    userData.docs.forEach((doc) => {
+      const notificationArray = doc.data().notification || [];
+      notificationArray.push(notificationData);
+      updateDoc(doc.ref, { notification: notificationArray });
+    });
+  };
+
+  const addLike = async () => {
+    const q = query(collection(db, "Users"), where("uid", "==", userData.uid));
+    const usersdata = await getDocs(q);
+
+    usersdata.docs.forEach((doc) => {
+      const likedPosts = doc.data().liked || [];
+      const found = likedPosts.some((postUid) => postUid === post.postUid);
+
+      if (!found) {
+        likedPosts.push(post.postUid);
+        addNotification(post.userUid, "like", userData.name);
+      } else {
+        const updatedLikedPosts = likedPosts.filter(
+          (postUid) => postUid !== post.postUid
+        );
+        // Assign the updated likedPosts array to likedPosts variable
+        likedPosts.length = 0;
+        likedPosts.push(...updatedLikedPosts);
+      }
+      updateDoc(doc.ref, { liked: likedPosts });
+    });
+    setLiked1(!liked1);
+  };
+
   const handleComment = async (e) => {
     e.preventDefault();
-    console.log(e.target.comment.value);
 
     const q = query(
       collection(db, "Posts"),
       where("postUid", "==", post.postUid)
     );
+
     const postsData = await getDocs(q);
     const date = new Date();
 
@@ -56,12 +119,33 @@ const PostItems = (props) => {
       date: date,
     };
 
+    let uid = "";
+
     postsData.docs.forEach((doc) => {
       if (post.postUid === doc.data().postUid) {
+        uid = doc.data().userUid;
         const commentsArray = doc.data().comments || [];
         commentsArray.push(commentData);
 
         updateDoc(doc.ref, { comments: commentsArray });
+      }
+    });
+
+    addNotification(uid, "comment", userData.name);
+  };
+
+  const handleDelete = async () => {
+    const q = query(
+      collection(db, "Posts"),
+      where("postUid", "==", post.postUid)
+    );
+
+    const postsData = await getDocs(q);
+
+    postsData.docs.forEach((doc) => {
+      if (post.postUid === doc.data().postUid) {
+        const docRef = doc.ref;
+        deleteDoc(docRef);
       }
     });
   };
@@ -84,13 +168,24 @@ const PostItems = (props) => {
       <img className="uploadedImage" src={post.imgUrl} alt="uploadedPhoto" />
       <p className="postText">{post.text}</p>
       <div className="postButtonSectiom">
-        <button>
-          <i class="fa-solid fa-thumbs-up"></i>&nbsp;Like
-        </button>
-
+        {liked ? (
+          <button onClick={addLike} style={{ color: "blue" }}>
+            <i class="fa-solid fa-thumbs-up"></i>&nbsp;Liked
+          </button>
+        ) : (
+          <button onClick={addLike}>
+            <i class="fa-solid fa-thumbs-up"></i>&nbsp;Like
+          </button>
+        )}
         <button onClick={openComment}>
           <i class="fa-solid fa-comment"></i>&nbsp;Comment
         </button>
+
+        {post.userUid === userData.uid && (
+          <button onClick={handleDelete}>
+            <i class="fa-solid fa-comment"></i>&nbsp;Delete
+          </button>
+        )}
       </div>
       {commentContainer && (
         <div className="commentSection">

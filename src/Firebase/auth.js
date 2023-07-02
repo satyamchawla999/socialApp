@@ -33,6 +33,8 @@ const signInWithGoogle = async () => {
             uid: user.uid,
             name: user.displayName,
             email: user.email,
+            notification:[],
+            liked:[],
             online:true
         }
 
@@ -64,6 +66,8 @@ const logInWithEmailAndPassword = async (email,password) => {
             uid: user.uid,
             name: user.displayName,
             email: user.email,
+            notification:[],
+            liked:[],
             online: true
         }
 
@@ -95,6 +99,8 @@ const registerWithEmailAndPassword = async (name,email,password) => {
             uid: user.uid,
             name: name,
             email: user.email,
+            notification:[],
+            liked:[],
             online: true
         }
 

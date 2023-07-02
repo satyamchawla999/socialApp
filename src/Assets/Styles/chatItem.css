@@ -1,0 +1,34 @@
+.chatUsers{
+    width:100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid lightgrey;
+}
+
+.chatUsers:hover {
+    box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+}
+
+.chatUsers img {
+    height: 30px;
+    width: 30px;
+    margin-right: 5px;
+}
+
+.chatUsers p {
+    color: black;
+    font-size:12px;
+}
+
+.chatUsers .online {
+    width: 65%;
+    color: red;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+
+    
+    padding-right: 10;
+    font-size: 10px;
+}
