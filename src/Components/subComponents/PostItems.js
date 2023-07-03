@@ -46,7 +46,7 @@ const PostItems = (props) => {
       };
   
       getLikes();
-
+      console.log("/");
     }
     
   }, [post, liked1]);
