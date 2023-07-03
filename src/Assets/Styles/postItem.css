@@ -1,111 +1,137 @@
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
-p{
-    padding: 0;
-    margin: 0;
+p {
+  padding: 0;
+  margin: 0;
 }
 
 .postItems {
-    width: 100%;
-    border-radius: 30px;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    background-color: #FAFAFB;
-    border: 1px solid #EEEEF4;
-    box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;    margin-bottom: 35px;
+  width: 100%;
+  border-radius: 30px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #fafafb;
+  border: 1px solid #eeeef4;
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px,
+    rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+  margin-bottom: 35px;
 }
 
-.postText{
-    width: 100%;
-    padding: 20px 40px;
-    color: grey;
-    border-bottom:1px solid lightgrey ;
+.postText {
+  width: 100%;
+  padding: 20px 40px;
+  color: grey;
+  border-bottom: 1px solid lightgrey;
 }
 
 .uploadedImage {
-    height: 400px;
-    width: 100%;
-    border-radius: 30px 30px 0px 0px;
+  height: 400px;
+  width: 100%;
+  border-radius: 30px 30px 0px 0px;
 }
 
 .postDetail {
-    position: absolute;
-    border-radius: 30px 30px 00px 0px;
-    width: 100%;
-    height: 60px;
-    padding: 20px;
-    color: white;
-    display: flex;
-    background-image: linear-gradient(rgb(73, 71, 71),transparent);
+  position: absolute;
+  border-radius: 30px 30px 00px 0px;
+  width: 100%;
+  height: 60px;
+  padding: 20px;
+  color: white;
+  display: flex;
+  background-image: linear-gradient(rgb(73, 71, 71), transparent);
 }
 
 .postTime {
-    font-size:13px
+  font-size: 13px;
 }
 
-.postDetail>div{
-    display: flex;
-    width: 100%;
-    justify-content:space-between;
-    /* align-items:center; */
+.postDetail > div {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  /* align-items:center; */
 }
 
 .postDetail img {
-    width: 50px;
-    height: 50px;
-    border-radius: 20px;
-    margin-right:10px ;
+  width: 50px;
+  height: 50px;
+  border-radius: 20px;
+  margin-right: 10px;
 }
 
-.postButtonSectiom{
-    padding: 20px;
-    display: flex;
+.postButtonSectiom {
+  padding: 20px;
+  display: flex;
+}
+
+.deletePost:hover {
+  color: red;
 }
 
 .postButtonSectiom button {
-    background-color: transparent;
-    border: none;
-    color: grey;
-    margin-right: 10px;
+  background-color: transparent;
+  border: none;
+  color: grey;
+  margin-right: 10px;
 }
 
 .postButtonSectiom button:hover {
-    transform: scale(1.1);
+  transform: scale(1.1);
 }
 
-.commentSection{
-    width: 100%;
-    padding: 0px 10px 10px 10px;
+.commentSection {
+  width: 100%;
+  padding: 0px 10px 10px 10px;
 }
 
-.commentSectionContainer{
-    width: 100%;
-    height: 80px;
-    display: flex;
-    flex-direction: column;
-    overflow-y: scroll;
-    color: red;
+.commentSectionContainer {
+  width: 100%;
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  color: red;
 }
 
-.commentSection>p {
-    width: 100%;
-    text-align: center;
-    font-size: 13px;
+.commentItem {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 50px;
+  margin-bottom: 5px;
+  padding: 5px;
+}
+
+.commentItem img {
+  height: 40px;
+  width: 40px;
+  margin-right: 10px;
+}
+
+.commentItem div {
     color: grey;
-    margin-bottom: 20px;
+    font-size: 15px;
+}
+
+.commentSection > p {
+  width: 100%;
+  text-align: center;
+  font-size: 13px;
+  color: grey;
+  margin-bottom: 20px;
 }
 
 .commentSection input {
-    background-color: transparent;
-    border: none;
-    border-bottom: 1px solid grey;
-    margin: 10px;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid grey;
+  margin: 10px;
 }
 
 .commentSection input:focus {
-    outline: none;
+  outline: none;
 }

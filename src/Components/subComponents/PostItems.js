@@ -28,22 +28,27 @@ const PostItems = (props) => {
   const [liked1, setLiked1] = useState(false);
 
   useEffect(() => {
-    const getLikes = async () => {
-      const q = query(
-        collection(db, "Users"),
-        where("uid", "==", userData.uid)
-      );
+    if(userData?.uid !== "") {
 
-      const data = await getDocs(q);
-      let found = false;
-      data.docs.some((doc) => {
-        found = doc.data().liked.some((postUid) => postUid === post.postUid);
-        return found;
-      });
-      setLiked(found);
-    };
+      const getLikes = async () => {
+        const q = query(
+          collection(db, "Users"),
+          where("uid", "==", userData.uid)
+        );
+  
+        const data = await getDocs(q);
+        let found = false;
+        data.docs.some((doc) => {
+          found = doc.data().liked.some((postUid) => postUid === post.postUid);
+          return found;
+        });
+        setLiked(found);
+      };
+  
+      getLikes();
 
-    getLikes();
+    }
+    
   }, [post, liked1]);
 
   let Mydate = "T";
@@ -63,19 +68,22 @@ const PostItems = (props) => {
   };
 
   const addNotification = async (uid, type, name) => {
-    const q = query(collection(db, "Users"), where("uid", "==", uid));
+    
+      const q = query(collection(db, "Users"), where("uid", "==", uid));
 
-    const notificationData = {
-      type,
-      name,
-    };
+      const notificationData = {
+        uid,
+        type,
+        name,
+      };
 
-    const userData = await getDocs(q);
-    userData.docs.forEach((doc) => {
-      const notificationArray = doc.data().notification || [];
-      notificationArray.push(notificationData);
-      updateDoc(doc.ref, { notification: notificationArray });
-    });
+      const userData = await getDocs(q);
+      userData.docs.forEach((doc) => {
+        const notificationArray = doc.data().notification || [];
+        notificationArray.push(notificationData);
+        updateDoc(doc.ref, { notification: notificationArray });
+      });
+    
   };
 
   const addLike = async () => {
@@ -132,6 +140,8 @@ const PostItems = (props) => {
     });
 
     addNotification(uid, "comment", userData.name);
+    e.target.comment.value = "";
+    openComment();
   };
 
   const handleDelete = async () => {
@@ -169,7 +179,7 @@ const PostItems = (props) => {
       <p className="postText">{post.text}</p>
       <div className="postButtonSectiom">
         {liked ? (
-          <button onClick={addLike} style={{ color: "blue" }}>
+          <button onClick={addLike} style={{ color: "#238CFF" }}>
             <i class="fa-solid fa-thumbs-up"></i>&nbsp;Liked
           </button>
         ) : (
@@ -181,9 +191,9 @@ const PostItems = (props) => {
           <i class="fa-solid fa-comment"></i>&nbsp;Comment
         </button>
 
-        {post.userUid === userData.uid && (
-          <button onClick={handleDelete}>
-            <i class="fa-solid fa-comment"></i>&nbsp;Delete
+        {post?.userUid === userData?.uid && (
+          <button onClick={handleDelete} className="deletePost">
+            <i class="fa-solid fa-trash"></i>&nbsp;Delete
           </button>
         )}
       </div>
@@ -194,9 +204,27 @@ const PostItems = (props) => {
           ) : (
             <>
               <div className="commentSectionContainer">
-                {comments.map((comment) => (
-                  <p>{comment}</p>
-                ))}
+                {comments.map((comment) => {
+                  const date = post?.date?.seconds
+                    ? new Date(post.date.seconds * 1000)
+                    : null;
+                  const formattedTime = date ? date.toLocaleTimeString() : null;
+                  return (
+                    <div className="commentItem">
+                      <img
+                        src={require("../../Assets/Images/456327.avif")}
+                        alt="#"
+                      />
+
+                      <div>
+                        <p>{comment}</p>
+                        <p style={{ fontSize: "12px" }}>
+                          {getDate(date)} {formattedTime}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </>
           )}

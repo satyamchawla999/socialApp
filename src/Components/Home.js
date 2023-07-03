@@ -18,24 +18,25 @@ import {
 } from "firebase/firestore";
 
 const Home = () => {
-  const [userData, setUserData] = useState(
+  console.log("home")
+  const userData  = 
     useSelector((state) => state.userData)
-  );
+  
   const Navigate = useNavigate();
   const [posts, setPosts] = useState([]);
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    if (!userData) Navigate("/");
+    if (userData === {}) Navigate("/");
     let usersD = [];
     const getUsers = async () => {
       const data = query(collection(db, "Users"));
       const unsubscribe = onSnapshot(data, (snapshot) => {
         snapshot.forEach((doc) => {
-          if (userData?.uid === doc.data().uid) {
-            setUserData(doc.data());
-            console.log("userData", userData);
-          }
+          // if (userData?.uid === doc.data().uid) {
+          //   setUserData(doc.data());
+          //   console.log("userData", userData);
+          // }
           usersD.push(doc.data());
         });
         setUsers(usersD);
@@ -47,22 +48,22 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    if (!userData) Navigate("/");
-    let postsD = [];
+    if (userData === {}) Navigate("/");
     const getPosts = async () => {
       const data = query(collection(db, "Posts"));
       const unsubscribe = onSnapshot(data, (snapshot) => {
+        const postsD = [];
         snapshot.forEach((doc) => {
           postsD.push(doc.data());
         });
-        setPosts(postsD);
-        postsD = [];
+        const sortedPosts = postsD.reverse();
+        setPosts(sortedPosts);
       });
       return () => unsubscribe();
     };
     getPosts();
   }, []);
-
+  
   // useEffect(() => {
   //   if (!userData) Navigate("/");
 
@@ -88,7 +89,7 @@ const Home = () => {
   return (
     <div className="home">
       {users.map(
-        (user) => user.uid === userData.uid && <SideBar user={user} />
+        (user,index) => user.uid === userData.uid && <SideBar key={index} user={user} />
       )}
 
       <Post posts={posts} users={users} />

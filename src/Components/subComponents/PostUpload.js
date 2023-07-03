@@ -82,7 +82,9 @@ const PostUpload = () => {
           uploadPost();
           e.target.text.value="";
           chooseFile = null;
-          setImgUrl(null)
+          setImgUrl(null);
+          handleOk();
+          
         });
       }
     );
@@ -93,6 +95,7 @@ const PostUpload = () => {
     setImgUrl(null)
     chooseFile = null
     setIsModalOpen(true);
+    setProgresspercent(0);
   }
   const handleOk = () => setIsModalOpen(false);
   const handleCancel = () => setIsModalOpen(false);
@@ -122,7 +125,7 @@ const PostUpload = () => {
                   name="text"
                   placeholder="What's on your mind?"
                   rows={20}
-                  cols={38}
+                  cols={42}
                 />
                 <button type="submit">Upload {progresspercent}%</button>
               </div>

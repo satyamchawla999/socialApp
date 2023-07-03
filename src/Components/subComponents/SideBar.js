@@ -19,7 +19,7 @@ import {
 
 const SideBar = (props) => {
   const userData = useSelector((state) => state.userData);
-  const { user } = props;
+  const { user,key } = props;
 
   const dispatch = useDispatch();
   const Navigate = useNavigate();
@@ -51,7 +51,8 @@ const SideBar = (props) => {
       <div className="backImg">
         <img src={require("../../Assets/Images/backImg.jpg")} />
         <div className="userInfo">
-          <img src={require("../../Assets/Images/profile.png")} />
+          {key%2===0 ? <img src={require("../../Assets/Images/profile2.png")} /> : <img src={require("../../Assets/Images/profile1.png")} /> }
+          
           <div>
             <p style={{ fontSize: "15px" }}>{userData?.name}</p>
             <p>@{userData?.name}20</p>
@@ -72,7 +73,7 @@ const SideBar = (props) => {
 
           {user.notification.length === 0 && <p className="emptyNotification" >No notification's yet!</p>}
 
-        {user.notification.map((n) => (
+        {user.notification.map((n) => ( 
           <div className="notty">
             <img src={require("../../Assets/Images/456327.avif")}></img>
             {n.type === "like" && <p>{n.name} liked your photo</p>}
