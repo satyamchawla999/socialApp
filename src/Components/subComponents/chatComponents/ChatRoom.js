@@ -1,6 +1,6 @@
 import { Timestamp } from "firebase/firestore";
-import { format, isTomorrow, isToday } from "date-fns";
-import {getDate} from "../../..//Utils/constant"
+// import { format, isTomorrow, isToday } from "date-fns";
+import {getDate} from "../../../Utils/constant"
 
 const ChatRoom = (props) => {
   const { chats, userId, userDataId } = props;

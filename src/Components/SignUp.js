@@ -1,9 +1,10 @@
 import React, { useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from "react-redux";
-import { signInWithGoogle, registerWithEmailAndPassword } from "../Firebase/auth";
+import { registerWithEmailAndPassword } from "../Firebase/auth";
 import { setUser, setUserData } from "../Features/Social/userSlice"
-import {Loading} from "./subComponents"
+import { authButton } from '../Utils/constant';
+import { Loading } from "./subComponents"
 import "../Assets/Styles/signUp.scss";
 
 const SignUp = () => {
@@ -12,31 +13,11 @@ const SignUp = () => {
 
   const dispatch = useDispatch();
   const Navigate = useNavigate();
-  const [loading,setLoading] = useState(false);
 
   console.log("signUp")
 
-  const authButton = async () => {
-
-    try {
-      const data = await signInWithGoogle();
-      dispatch(setUser());
-      dispatch(setUserData(data));
-      Navigate("/home");
-
-    } catch (err) {
-
-      alert(err);
-      console.error(err);
-
-    }
-
-  }
-
   const handleSubmit = async (e) => {
-
     e.preventDefault();
-
     const name = e.target.name.value;
     const email = e.target.email.value;
     const password = e.target.password.value;
@@ -47,13 +28,12 @@ const SignUp = () => {
     }
 
     try {
-      const data = await registerWithEmailAndPassword(name,email, password);
-      if(data) {
+      const data = await registerWithEmailAndPassword(name, email, password);
+      if (data) {
         dispatch(setUserData(data));
         dispatch(setUser());
         Navigate("/");
       }
-
       e.target.name.value = "";
       e.target.email.value = "";
       e.target.password.value = "";
@@ -63,22 +43,15 @@ const SignUp = () => {
     }
   }
 
-  if(loading) {
-    <Loading/>
-  }
-
   return (
     <div className='signUp'>
       <div className='container'>
         <div className='leftContainer'>
           <div className='formSection'>
-            <div className='logo'>
-
-            </div>
 
             <h1>Sign Up</h1>
 
-            <button className='authButton' onClick={authButton}>
+            <button className='authButton' onClick={() => authButton(dispatch, Navigate)}>
               <img src={require("../Assets/Images/google.png")} />
               Sign Up With Google
             </button>

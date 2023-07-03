@@ -19,15 +19,16 @@ import {
 
 const Home = () => {
   console.log("home")
-  const userData  = 
-    useSelector((state) => state.userData)
+  const userData  = useSelector((state) => state.userData);
+  const user = useSelector((state)=>state.user);
+  console.log("userHome",user);
   
   const Navigate = useNavigate();
   const [posts, setPosts] = useState([]);
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    if (userData === {}) Navigate("/");
+    // if (!user) Navigate("/");
     let usersD = [];
     const getUsers = async () => {
       const data = query(collection(db, "Users"));
@@ -48,7 +49,7 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    if (userData === {}) Navigate("/");
+    // if (!user) Navigate("/");
     const getPosts = async () => {
       const data = query(collection(db, "Posts"));
       const unsubscribe = onSnapshot(data, (snapshot) => {
@@ -95,7 +96,6 @@ const Home = () => {
       <Post posts={posts} users={users} />
 
       <div className="chatSection">
-        
         <Chat users={users} />
       </div>
     </div>

@@ -33,13 +33,12 @@ const PostUpload = () => {
     const file = chooseFile.current?.files[0];
     const text = e.target.text.value;
 
-    console.log(file);
+    console.log(file.type);
     console.log(text);
 
     if (!file) return;
 
     const storageRef = ref(storage, `files/${file.name}`);
-    console.log("sref", storageRef);
     const uploadTask = uploadBytesResumable(storageRef, file);
 
     uploadTask.on(
@@ -57,11 +56,24 @@ const PostUpload = () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           const date = new Date();
           const postUid = Date.now();
+
+          let vidioUrl = "";
+          let imgUrl = "";
+
+          if(file.type === "video/mp4") {
+            console.log("vidio vidio vidio")
+            vidioUrl = downloadURL;
+            imgUrl = "";
+          } else {
+            vidioUrl = "";
+            imgUrl = downloadURL;
+          }
           const postData = {
             name: userData.name,
             userUid: userData.uid,
             postUid: postUid,
-            imgUrl: downloadURL,
+            imgUrl: imgUrl,
+            vidioUrl:vidioUrl,
             text: text,
             likes: 0,
             comments: [],

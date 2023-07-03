@@ -5,6 +5,13 @@ const initialState = {
     userData:{}
 };
 
+// userSlice for storing current user info
+
+// reducers 
+// 1) setUser for setting up currentUser 
+// 2) setUserData for setting data of current user
+// 3) deleteUser for deleting data and setUser to false
+
 const userSlice = createSlice({
     name:"user",
     initialState,

@@ -21,21 +21,23 @@ const PostItems = (props) => {
   const { post } = props;
 
   const userData = useSelector((state) => state.userData);
+  console.log("image", post.imgUrl);
+  // console.log("vidio", post?.vidioUrl);
+  const video = post?.vidioUrl;
 
   const [commentContainer, setCommentContainer] = useState(false);
   const [comments, setComments] = useState([]);
   const [liked, setLiked] = useState(false);
-  const [liked1, setLiked1] = useState(false);
 
   useEffect(() => {
-    if(userData?.uid !== "") {
+    if (userData?.uid !== "") {
 
       const getLikes = async () => {
         const q = query(
           collection(db, "Users"),
           where("uid", "==", userData.uid)
         );
-  
+
         const data = await getDocs(q);
         let found = false;
         data.docs.some((doc) => {
@@ -44,12 +46,12 @@ const PostItems = (props) => {
         });
         setLiked(found);
       };
-  
+
       getLikes();
       console.log("/");
     }
-    
-  }, [post, liked1]);
+
+  }, [post]);
 
   let Mydate = "T";
   const date = post?.date?.seconds ? new Date(post.date.seconds * 1000) : null;
@@ -68,27 +70,30 @@ const PostItems = (props) => {
   };
 
   const addNotification = async (uid, type, name) => {
-    
-      const q = query(collection(db, "Users"), where("uid", "==", uid));
 
-      const notificationData = {
-        uid,
-        type,
-        name,
-      };
+    const q = query(collection(db, "Users"), where("uid", "==", uid));
 
-      const userData = await getDocs(q);
-      userData.docs.forEach((doc) => {
-        const notificationArray = doc.data().notification || [];
-        notificationArray.push(notificationData);
-        updateDoc(doc.ref, { notification: notificationArray });
-      });
-    
+    const notificationData = {
+      uid,
+      type,
+      name,
+    };
+
+    const userData = await getDocs(q);
+    userData.docs.forEach((doc) => {
+      const notificationArray = doc.data().notification || [];
+      notificationArray.push(notificationData);
+      updateDoc(doc.ref, { notification: notificationArray });
+    });
+
   };
 
   const addLike = async () => {
     const q = query(collection(db, "Users"), where("uid", "==", userData.uid));
     const usersdata = await getDocs(q);
+
+    const qp = query(collection(db, "Posts"), where("postUid", "==", post.postUid));
+    const postsdata = await getDocs(qp);
 
     usersdata.docs.forEach((doc) => {
       const likedPosts = doc.data().liked || [];
@@ -97,7 +102,21 @@ const PostItems = (props) => {
       if (!found) {
         likedPosts.push(post.postUid);
         addNotification(post.userUid, "like", userData.name);
+        postsdata.docs.forEach((doc) => {
+          let likes = doc.data().likes || 0;
+          likes = likes + 1;
+          updateDoc(doc.ref, { likes: likes })
+        })
       } else {
+
+        postsdata.docs.forEach((doc) => {
+          let likes = doc.data().likes || 0;
+          if (likes !== 0) {
+            likes = likes - 1;
+          }
+          updateDoc(doc.ref, { likes: likes })
+        })
+
         const updatedLikedPosts = likedPosts.filter(
           (postUid) => postUid !== post.postUid
         );
@@ -107,7 +126,6 @@ const PostItems = (props) => {
       }
       updateDoc(doc.ref, { liked: likedPosts });
     });
-    setLiked1(!liked1);
   };
 
   const handleComment = async (e) => {
@@ -163,6 +181,7 @@ const PostItems = (props) => {
   return (
     <div className="postItems">
       <div className="postDetail">
+
         <img src={require("../../Assets/Images/profile.png")} />
 
         <div>
@@ -175,16 +194,22 @@ const PostItems = (props) => {
         </div>
       </div>
 
-      <img className="uploadedImage" src={post.imgUrl} alt="uploadedPhoto" />
+      {post?.vidioUrl ? <>
+        <video src={video} controls={true}></video>
+      </> : <>
+        <img className="uploadedImage" src={post.imgUrl} alt="uploadedPhoto" />
+      </>}
+
+
       <p className="postText">{post.text}</p>
       <div className="postButtonSectiom">
         {liked ? (
           <button onClick={addLike} style={{ color: "#238CFF" }}>
-            <i class="fa-solid fa-thumbs-up"></i>&nbsp;Liked
+            <i class="fa-solid fa-thumbs-up"></i>&nbsp;Liked {post.likes}
           </button>
         ) : (
           <button onClick={addLike}>
-            <i class="fa-solid fa-thumbs-up"></i>&nbsp;Like
+            <i class="fa-solid fa-thumbs-up"></i>&nbsp;Like {post.likes}
           </button>
         )}
         <button onClick={openComment}>

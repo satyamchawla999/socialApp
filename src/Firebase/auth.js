@@ -1,4 +1,3 @@
-import {useSelector} from "react-redux/es/hooks/useSelector";
 import { auth, googleProvider, db } from "./firebase";
 
 import {
@@ -10,18 +9,16 @@ import {
 } from "firebase/auth";
 
 import {
-    getFirestore,
-    doc,
     query,
     getDocs,
     collection,
     where,
     addDoc,
     updateDoc,
-    getDoc,
-    onSnapshot
 } from "firebase/firestore";
 
+
+// GOOGLE AUTH SIGN IN AND ADDING USER TO DATABASE WITH QUERY AND ADDDOCS
 const signInWithGoogle = async () => {
     try {
         const res = await signInWithPopup(auth, googleProvider);
@@ -29,19 +26,22 @@ const signInWithGoogle = async () => {
         const q = query(collection(db, "Users"), where("uid", "==", user.uid));
         const docs = await getDocs(q);
 
+        docs.docs.forEach((doc) => (console.log("id id", doc.id)));
+
         const data = {
             uid: user.uid,
             name: user.displayName,
             email: user.email,
-            notification:[],
-            liked:[],
-            online:true
+            notification: [],
+            liked: [],
+            imgUrl:"",
+            online: true
         }
 
         if (docs.docs.length === 0) {
-            await addDoc(collection(db, "Users"),data);
+            await addDoc(collection(db, "Users"), data);
         } else {
-            docs.forEach((doc)=>{
+            docs.forEach((doc) => {
                 const docRef = doc.ref;
                 updateDoc(docRef, { online: true });
             })
@@ -55,10 +55,11 @@ const signInWithGoogle = async () => {
     }
 };
 
-const logInWithEmailAndPassword = async (email,password) => {
+// MANUAL SIGN IN AND ADDING USER TO DATABASE WITH QUERY AND ADDDOCS
+const logInWithEmailAndPassword = async (email, password) => {
     try {
         const res = await signInWithEmailAndPassword(auth, email, password);
-        const user= res.user;
+        const user = res.user;
         const q = query(collection(db, "Users"), where("uid", "==", user.uid));
         const docs = await getDocs(q);
 
@@ -66,16 +67,16 @@ const logInWithEmailAndPassword = async (email,password) => {
             uid: user.uid,
             name: user.displayName,
             email: user.email,
-            notification:[],
-            liked:[],
+            notification: [],
+            liked: [],
             online: true
         }
 
         if (docs.docs.length === 0) {
-            await addDoc(collection(db, "Users"),data);
-        } 
+            await addDoc(collection(db, "Users"), data);
+        }
         else {
-            docs.forEach((doc)=>{
+            docs.forEach((doc) => {
                 const docRef = doc.ref;
                 updateDoc(docRef, { online: true });
             })
@@ -88,19 +89,20 @@ const logInWithEmailAndPassword = async (email,password) => {
     }
 };
 
-const registerWithEmailAndPassword = async (name,email,password) => {
+// MANUAL SIGN UP AND ADDING USER TO DATABASE WITH QUERY AND ADDDOCS
+const registerWithEmailAndPassword = async (name, email, password) => {
     try {
         const res = await createUserWithEmailAndPassword(auth, email, password);
         console.log(res);
-        updateProfile(res.user,{displayName:name}).then((x)=>console.log("success")).catch((err)=>console.log(err));
+        updateProfile(res.user, { displayName: name }).then((x) => console.log("success")).catch((err) => console.log(err));
         const user = res.user;
 
         const data = {
             uid: user.uid,
             name: name,
             email: user.email,
-            notification:[],
-            liked:[],
+            notification: [],
+            liked: [],
             online: true
         }
 
@@ -112,6 +114,8 @@ const registerWithEmailAndPassword = async (name,email,password) => {
     }
 };
 
+
+// LOGOUT AND SET ONLINE TO FALSE IN FIRESTORE DATABASE
 const logout = async (uid) => {
     const q = query(collection(db, "Users"), where("uid", "==", uid));
     const docs = await getDocs(q);

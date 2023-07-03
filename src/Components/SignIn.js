@@ -1,8 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
-import { signInWithGoogle, logInWithEmailAndPassword } from "../Firebase/auth";
-import { setUser, setUserData } from "../Features/Social/userSlice"
+
+import { authButton } from '../Utils/constant';
+import { setUser, setUserData } from "../Features/Social/userSlice";
+import { logInWithEmailAndPassword } from "../Firebase/auth";
 
 import "../Assets/Styles/signIn.scss";
 
@@ -10,41 +12,18 @@ const SignIn = () => {
 
   const dispatch = useDispatch();
   const Navigate = useNavigate();
-  const userData = useSelector((state)=>state)
-  const input = useRef(null)
+  const user = useSelector((state) => state.user);
 
-  useEffect(()=>{
-    // if(userData!=={}) Navigate("/home")
-  },[])
-
-  
-
-  const authButton = async () => {
-
-    try {
-
-      const data = await signInWithGoogle();
-      dispatch(setUser());
-      dispatch(setUserData(data));
-      Navigate("/home");
-
-    } catch (err) {
-
-      alert(err);
-      console.error(err);
-
-    }
-
-  }
+  useEffect(() => {
+    if (user) Navigate("/home")
+  }, []);
 
   const handleSubmit = async (e) => {
-
     e.preventDefault();
-
     const email = e.target.email.value;
     const password = e.target.password.value;
 
-    if(email === "" || password === "") {
+    if (email === "" || password === "") {
       alert("Enter All Credintials");
       return;
     }
@@ -54,7 +33,6 @@ const SignIn = () => {
       dispatch(setUserData(data));
       dispatch(setUser());
       Navigate("/home");
-
       e.target.email.value = "";
       e.target.password.value = "";
     } catch (err) {
@@ -68,13 +46,10 @@ const SignIn = () => {
       <div className='container'>
         <div className='leftContainer'>
           <div className='formSection'>
-            <div className='logo'>
-
-            </div>
 
             <h1>Sign In</h1>
 
-            <button className='authButton' onClick={authButton}>
+            <button className='authButton' onClick={()=>authButton(dispatch,Navigate)}>
               <img src={require("../Assets/Images/google.png")} />
               Log In With Google
             </button>
@@ -87,7 +62,6 @@ const SignIn = () => {
                 type='email'
                 name='email'
                 placeholder='Email Address'
-                ref={input}
               />
 
               <label>Password</label>
@@ -96,7 +70,6 @@ const SignIn = () => {
                 type='password'
                 name='password'
                 placeholder='Password'
-                ref={input}
               />
 
               <p>Forgot Password?</p>
@@ -111,9 +84,8 @@ const SignIn = () => {
           <img src={require("../Assets/Images/man.png")} />
         </div>
       </div>
-
     </div>
   )
 }
 
-export default SignIn
+export default SignIn;
